@@ -1,14 +1,13 @@
 {% set name = "splunk_handler" %}
-{% set version = "2.2.2" %}
-{% set sha256 = "1a2374f1ce2f488fd8e4340460a74804c25ac44a5932fbc287bfc8e7355a1dc5" %}
+{% set version = "3.0.0" %}
+{% set sha256 = "a835b0a7161148aceb977301c6dba21bb96e7635279c7e90e0216c78a4bcbb24" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
 build:
@@ -18,14 +17,19 @@ build:
 
 requirements:
   host:
-    - python >=2.7
+    - python {{ python_min }}
     - pip
-
+    - setuptools
   run:
-    - python >=2.7
-    - requests
+    - python >={{ python_min }}
+    - requests >=2.6.0,<3.0.0
 
 test:
+  requires:
+    - python {{ python_min }}
+    - pip
+  commands:
+    - pip check
   imports:
     - splunk_handler
 
@@ -46,3 +50,4 @@ about:
 extra:
   recipe-maintainers:
     - sodre
+    - soapy1
